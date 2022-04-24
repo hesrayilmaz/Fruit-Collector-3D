@@ -6,6 +6,7 @@ public class CollectItems : MonoBehaviour
 {
     private GameObject fruit;
     private GameObject hamburger;
+    ScoreManager score;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,10 +19,12 @@ public class CollectItems : MonoBehaviour
         if (other.CompareTag("Fruit"))
         {
             Destroy(other.gameObject);
+            score.increasePower();
         }
         if (other.CompareTag("Hamburger"))
         {
             Destroy(other.gameObject);
+            score.decreasePower();
         }
     }
 }
