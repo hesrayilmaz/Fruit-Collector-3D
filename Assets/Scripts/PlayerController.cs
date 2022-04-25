@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!PlayerManager.isGameStarted) return;
+        if (!MenuController.isGameStarted) return;
 
         if (isMoving)
         {
@@ -48,7 +48,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
- 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.name == "Ground")
@@ -62,6 +61,7 @@ public class PlayerController : MonoBehaviour
         {
             isMoving = false;
             transform.Translate(new Vector3(0, 0, 0));
+            MenuController.isGameOver = true;
             
             if (ScoreUI.power < CollectItems.powerLimit)
                 animator.SetBool("isUnderLimit", true);
