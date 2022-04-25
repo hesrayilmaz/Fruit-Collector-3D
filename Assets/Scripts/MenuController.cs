@@ -8,7 +8,8 @@ public class MenuController : MonoBehaviour
     public GameObject startingText;
     public static bool isGameOver;
     public GameObject gameOverPanel;
-    
+    public GameObject player;
+
     // Start is called before the first frame update
     void Start()
     {

@@ -46,6 +46,7 @@ public class PlayerController : MonoBehaviour
             }
 
         }
+       
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -70,7 +71,5 @@ public class PlayerController : MonoBehaviour
                 animator.SetBool("isAboveLimit", true);
         }
     }
-
-   
 
 }
