@@ -4,27 +4,61 @@ using UnityEngine;
 
 public class CollectItems : MonoBehaviour
 {
-    private GameObject fruit;
-    private GameObject hamburger;
-    ScoreManager score;
-    // Start is called before the first frame update
-    void Start()
-    {
-        fruit = GameObject.FindGameObjectWithTag("Fruit");
-        hamburger = GameObject.FindGameObjectWithTag("Hamburger");
-    }
+ 
+    private int maxPower = 100;
+    private int powerLimit = 70;
+    
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Fruit"))
         {
             Destroy(other.gameObject);
-            score.increasePower();
+            increasePower();
         }
-        if (other.CompareTag("Hamburger"))
+        else if (other.CompareTag("Hamburger"))
         {
             Destroy(other.gameObject);
-            score.decreasePower();
+            decreasePower();
         }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+         if (collision.gameObject.tag=="Obstacle")
+        {
+            decreasePower();
+        }
+    }
+
+
+    public void increasePower()
+    {
+        if ((ScoreUI.power + 10) > maxPower)
+        {
+           ScoreUI.power = maxPower;
+            
+        }
+        else
+        {
+            ScoreUI.power += 10;
+        }
+        
+    }
+    public void decreasePower()
+    {
+        if ((ScoreUI.power - 10) < 0)
+        {
+            ScoreUI.power = 0;
+        }
+        else
+        {
+            ScoreUI.power -= 10;
+        }
+      
+    }
+
+    public int getPowerLimit()
+    {
+        return powerLimit;
     }
 }

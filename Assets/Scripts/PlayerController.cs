@@ -6,25 +6,29 @@ public class PlayerController : MonoBehaviour
 {
     public float forwardSpeed;
     public float horizontalSpeed;
-
     public float jumpForce;
+    public bool isJumped = false;
     private Rigidbody rb;
     public bool isPlayerOnGround = true;
-  
+    private bool isMoving = true;
+    private Animator animator;
+    CollectItems score;
+
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        //controller = GetComponent<CharacterController>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
-         transform.Translate(Vector3.forward * Time.deltaTime * forwardSpeed, Space.World);
-       
+        if (isMoving)
+        {
+            transform.Translate(Vector3.forward * Time.deltaTime * forwardSpeed, Space.World);
+        }
         
         if (Input.GetKey(KeyCode.LeftArrow) && this.gameObject.transform.position.x>GroundBoundary.leftSide)
         {
@@ -38,9 +42,11 @@ public class PlayerController : MonoBehaviour
            
         }
 
-        if (Input.GetKey(KeyCode.UpArrow) && isPlayerOnGround)
+        if (Input.GetKey(KeyCode.UpArrow))
         {
+            isJumped = true;
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            animator.SetBool("isJumped", true);
             //isPlayerOnGround = false;
         }
        
@@ -52,7 +58,25 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.name == "Ground")
         {
             isPlayerOnGround = true;
+            isJumped = false;
+            //animator.SetBool("isJumped", false);
+        }
+
+        if (collision.gameObject.name == "GameOverGround")
+        {
+            isMoving = false;
+            transform.Translate(new Vector3(0, 0, 0));
+            if (ScoreUI.power < score.getPowerLimit())
+            {
+                animator.SetBool("isUnderLimit", true);
+            }
+            else
+            {
+                animator.SetBool("isAboveLimit", true);
+            }
         }
     }
-    
+
+   
+
 }
