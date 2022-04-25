@@ -16,6 +16,7 @@ public class AnimationContoller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
         if (player.isJumped)
         {
             animator.SetBool("isJumped", true);
@@ -33,5 +34,6 @@ public class AnimationContoller : MonoBehaviour
         {
             animator.SetBool("isJumped", false);
         }
+        */
     }
 }

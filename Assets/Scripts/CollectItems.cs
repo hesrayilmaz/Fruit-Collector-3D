@@ -4,11 +4,8 @@ using UnityEngine;
 
 public class CollectItems : MonoBehaviour
 {
- 
-    private int maxPower = 100;
-    private int powerLimit = 70;
-    
-
+    public readonly int maxPower = 100;
+    public static readonly int powerLimit = 70;
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Fruit"))
@@ -36,7 +33,6 @@ public class CollectItems : MonoBehaviour
         if ((ScoreUI.power + 10) > maxPower)
         {
            ScoreUI.power = maxPower;
-            
         }
         else
         {

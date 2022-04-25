@@ -7,19 +7,19 @@ public class PlayerController : MonoBehaviour
     public float forwardSpeed;
     public float horizontalSpeed;
     public float jumpForce;
-    public bool isJumped = false;
+
+    public Animator animator;
     private Rigidbody rb;
+
+    //public bool isJumped = false;
     public bool isPlayerOnGround = true;
     private bool isMoving = true;
-    private Animator animator;
-    CollectItems score;
-
+  
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -28,28 +28,22 @@ public class PlayerController : MonoBehaviour
         if (isMoving)
         {
             transform.Translate(Vector3.forward * Time.deltaTime * forwardSpeed, Space.World);
-        }
-        
-        if (Input.GetKey(KeyCode.LeftArrow) && this.gameObject.transform.position.x>GroundBoundary.leftSide)
-        {
-            transform.Translate(Vector3.left * Time.deltaTime * horizontalSpeed);
-           
-           
-        }
-        else if (Input.GetKey(KeyCode.RightArrow) && this.gameObject.transform.position.x < GroundBoundary.rightSide)
-        {
-              transform.Translate(Vector3.right * Time.deltaTime * horizontalSpeed);
-           
-        }
 
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            isJumped = true;
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            animator.SetBool("isJumped", true);
-            //isPlayerOnGround = false;
+            if (Input.GetKey(KeyCode.LeftArrow) && this.gameObject.transform.position.x > GroundBoundary.leftSide)
+                transform.Translate(Vector3.left * Time.deltaTime * horizontalSpeed);
+
+            else if (Input.GetKey(KeyCode.RightArrow) && this.gameObject.transform.position.x < GroundBoundary.rightSide)
+                transform.Translate(Vector3.right * Time.deltaTime * horizontalSpeed);
+
+            else if (Input.GetKey(KeyCode.UpArrow))
+            {
+                //isJumped = true;
+                rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+                animator.SetBool("isJumped", true);
+                isPlayerOnGround = false;
+            }
+
         }
-       
     }
 
  
@@ -58,22 +52,20 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.name == "Ground")
         {
             isPlayerOnGround = true;
-            isJumped = false;
-            //animator.SetBool("isJumped", false);
+            //isJumped = false;
+            animator.SetBool("isJumped", false);
         }
 
         if (collision.gameObject.name == "GameOverGround")
         {
             isMoving = false;
             transform.Translate(new Vector3(0, 0, 0));
-            if (ScoreUI.power < score.getPowerLimit())
-            {
+            
+            if (ScoreUI.power < CollectItems.powerLimit)
                 animator.SetBool("isUnderLimit", true);
-            }
+
             else
-            {
                 animator.SetBool("isAboveLimit", true);
-            }
         }
     }
 
