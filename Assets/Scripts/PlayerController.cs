@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!PlayerManager.isGameStarted) return;
+
         if (isMoving)
         {
             transform.Translate(Vector3.forward * Time.deltaTime * forwardSpeed, Space.World);
